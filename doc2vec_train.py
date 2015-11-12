@@ -6,9 +6,6 @@ from gensim.models import Doc2Vec
 # numpy
 import numpy
 
-# classifier
-from sklearn.linear_model import LogisticRegression
-
 class LabeledLineSentence(object):
     def __init__(self, sources):
         self.sources = sources
@@ -37,7 +34,8 @@ class LabeledLineSentence(object):
         return self.sentences
 
     def sentences_perm(self):
-        return numpy.random.permutation(self.sentences)
+        numpy.random.shuffle(self.sentences)
+        return self.sentences
 
 sources = {'test-neg.txt':'TEST_NEG', 'test-pos.txt':'TEST_POS', 'train-neg.txt':'TRAIN_NEG', 'train-pos.txt':'TRAIN_POS', 'train-unsup.txt':'TRAIN_UNS'}
 
@@ -46,10 +44,10 @@ sentences = LabeledLineSentence(sources)
 model = Doc2Vec(min_count=1, window=10, size=100, sample=1e-4, negative=5, workers=7)
 
 model.build_vocab(sentences.to_array())
+i=0
+for epoch in range(10):
+    print(i)
+    model.train(sentences.sentences_perm())
+    i = i+1
 
-# for epoch in range(10):
-#     model.train(sentences.sentences_perm())
-
-
-model.save('./imdb.d2v')
-
+model.save('./imdb_1.d2v')
