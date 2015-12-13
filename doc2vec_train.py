@@ -9,7 +9,6 @@ import numpy
 class LabeledLineSentence(object):
     def __init__(self, sources):
         self.sources = sources
-
         flipped = {}
 
         # make sure that keys are unique
@@ -37,7 +36,7 @@ class LabeledLineSentence(object):
         numpy.random.shuffle(self.sentences)
         return self.sentences
 
-sources = {'test-neg.txt':'TEST_NEG', 'test-pos.txt':'TEST_POS', 'train-neg.txt':'TRAIN_NEG', 'train-pos.txt':'TRAIN_POS', 'train-unsup.txt':'TRAIN_UNS'}
+sources = {'test-neg.txt':'TEST_NEG', 'test-pos.txt':'TEST_POS', 'train-neg.txt':'TRAIN_NEG', 'train-pos.txt':'TRAIN_POS'}
 
 sentences = LabeledLineSentence(sources)
 
@@ -50,4 +49,4 @@ for epoch in range(10):
     model.train(sentences.sentences_perm())
     i = i+1
 
-model.save('./imdb_1.d2v')
+model.save('./imdb.d2v')
